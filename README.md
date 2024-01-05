@@ -27,6 +27,14 @@ To run the tests, run this command in repo's root:
 npx cypress run
 ```
 
+### Configure the browser
+
+Use `--browser` flag to set the broswer. You can only use browsers installed on your system.
+
+```
+npx cypress run --browser firefox
+```
+
 ### Configure the target URL
 
 Target URL is defined in this file with this variable..
