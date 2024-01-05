@@ -1,6 +1,4 @@
-# e2e-tests
-
-## End-to-end acceptance tests of the FaceAnalyzer app
+# End-to-end acceptance tests of the FaceAnalyzer app
 
 Each of the meticulously developed tests aligns with specific user stories, 
 ensuring a direct correspondence to the 29 functional requirements integral 
@@ -10,11 +8,12 @@ the functionality and integrity of the backend components.
 
 ## Cypress
 
+E2E tests are executed with the help of Cypress.
 Cypress is..
 
 ### Installation
 
-In order to install and run e2e-tests, you should have [NPM](https://www.npmjs.com/package/npm) installed.
+In order to install and run E2E tests, you should have [NPM](https://www.npmjs.com/package/npm) installed.
 
 ```
 npm install
