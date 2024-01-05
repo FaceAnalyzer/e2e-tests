@@ -14,8 +14,20 @@ Cypress is..
 
 ### Installation
 
+In order to install and run e2e-tests, you should have [NPM](https://www.npmjs.com/package/npm) installed.
+
+```
+npm install
+```
+
 ### Local run
 
+To run the tests, run this command in repo's root:
+
 ```bash
-cypress run
+npx cypress run
 ```
+
+### Configure the target URL
+
+Target URL is defined in this file with this variable..
