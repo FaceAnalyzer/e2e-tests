@@ -15,4 +15,4 @@ jobs:
         with:
           build: npm install
           start: npx cypress run
-					browser: firefox
+          browser: firefox
