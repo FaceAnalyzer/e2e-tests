@@ -229,35 +229,32 @@ describe('Face Analyzer App', () => {
         // Administrator fills the name and description of the experiment and submits the form
         cy.get('#experimentName').type('experimentName');
         cy.get('#experimentDescription').type('experimentDescription');
-        cy.contains('Save').click();
-
-        // Administrator clicks on the created experiment
+        cy.contains('Save').click();         
+            
+        // Administrator clicks on "Edit" on the created experiment
         cy.contains('.MuiTypography-root', 'experimentName')
             .parent('.MuiBox-root')
-            .find('[id^="button-open-"]')
+            .find('[id^="menu-undefined-"]')
             .filter(':visible')
+            .eq(0)
             .click();
-            
-        // Administrator clicks on "Edit"
-        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName')
-            .closest('.MuiCard-root')
-            .find('#button-edit-experiment')
-            .filter(':visible')
-            .click();
+        cy.get('.MuiMenuItem-root:contains("Edit")').filter(':visible').click();
 
         // Administrator changes the title and description of the experiment and clicks "Update"
         cy.get('#experimentName').type(' 2');
         cy.get('#button-update').filter(':visible').click();
 
         // Administrator can see the experiment with the description changed on the project screen
-        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2').should("exist");
+        cy.contains('.MuiTypography-root', 'experimentName 2').should("exist");
 
         // Administrator clicks on "Delete"
-        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2')
-            .closest('.MuiCard-root')
-            .find('#button-delete-experiment')
+        cy.contains('.MuiTypography-root', 'experimentName')
+            .parent('.MuiBox-root')
+            .find('[id^="menu-undefined-"]')
             .filter(':visible')
+            .eq(0)
             .click();
+        cy.get('.MuiMenuItem-root:contains("Delete")').filter(':visible').click();
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
