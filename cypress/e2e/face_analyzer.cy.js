@@ -238,11 +238,12 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName')
             .closest('.MuiCard-root')
             .find('#button-edit-experiment')
+            .filter(':visible')
             .click();
 
         // Administrator changes the title and description of the experiment and clicks "Update"
         cy.get('#experimentName').type(' 2');
-        cy.contains('Update').click({ force: true });
+        cy.get('#button-update').click();
 
         // Administrator can see the experiment with the description changed on the project screen
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2').should("exist");
