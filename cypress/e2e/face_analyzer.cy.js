@@ -72,14 +72,16 @@ describe('Face Analyzer App', () => {
 
         // Administrator clicks on "Delete" inside a specific user
         cy.fixture('researcher').then((data) => {
-            cy.contains('.MuiDataGrid-cellContent', data.username).parents('.MuiDataGrid-row').within(() => {
-                cy.get('[id^="button-delete-user-"]').click();
-            });
+            cy.contains('.MuiDataGrid-cellContent', data.username)
+            .parent('.MuiDataGrid-cell')
+            .parent('.MuiDataGrid-row')
+            .find('[id^="button-delete-user-"]')
+            .click();
         });        
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
     })
 
@@ -151,7 +153,7 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
 
         // Administrator can not see the project on the project management panel
@@ -198,11 +200,11 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
 
         // Administrator can not see the previously added researcher assigned to the project
-        cy.contains('.MuiDataGrid-cell-withRenderer', 'researcher-e2e').should('not.exist')
+        cy.contains('.MuiDataGrid-cell', 'researcher-e2e').should('not.exist')
 
     })
 
@@ -252,14 +254,14 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2').should("exist");
 
         // Administrator clicks on "Delete"
-        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName')
+        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2')
             .closest('.MuiCard-root')
             .find('#button-delete-experiment')
             .click();
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
     })
 
@@ -321,7 +323,7 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
     })
 
@@ -371,7 +373,7 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
+            cy.get('.MuiButton-containedSecondary:visible').click();
         });
     })
 
