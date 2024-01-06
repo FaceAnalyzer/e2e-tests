@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  cypress-with-electron:
-    name: Cypress with Electron
+  cypress-with-chrome:
+    name: Cypress with Chrome
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -27,6 +27,4 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm install
-          start: npx cypress run
           browser: firefox
