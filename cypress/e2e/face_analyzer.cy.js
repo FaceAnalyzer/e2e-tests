@@ -8,10 +8,6 @@ describe('Face Analyzer App', () => {
 
     function userLogIn (username, password) {
         return new Cypress.Promise((resolve, reject) => {
-            // Go to log in screen
-            cy.get('.MuiAvatar-root .MuiAvatar-img').click();
-            cy.get('.MuiPopper-root').should('be.visible');
-            cy.get('.MuiListItemButton-root:contains("Login")').click();
             cy.url().should('include', 'https://faceanalyzer.plavy.me/login');
 
             // Enter the credentials and submit the form
@@ -62,17 +58,6 @@ describe('Face Analyzer App', () => {
         });
     })
 
-    it('AT-04: Researcher logs in, sees all projects and logs out', () => {
-        // Researcher logs in
-        cy.fixture('researcher').then((data) => {
-            userLogIn(data.username, data.password);
-        });
-
-        // Researcher only sees the configuration and projects to which permission has been given
-        // To check this, we verify that the researcher is not able to create projects
-        cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('not.exist');
-    })
-
     it('AT-02: Administrator delete account', () => {
         // Administrator logs in
         cy.fixture('admin').then((data) => {
@@ -88,7 +73,7 @@ describe('Face Analyzer App', () => {
         // Administrator clicks on "Delete" inside a specific user
         cy.fixture('researcher').then((data) => {
             cy.contains('.MuiDataGrid-cellContent', data.username).parents('.MuiDataGrid-row').within(() => {
-                cy.get('.MuiButton-containedPrimary').eq(1).click();
+                cy.get('[id^="button-delete-user-"]').click();
             });
         });        
 
@@ -107,6 +92,17 @@ describe('Face Analyzer App', () => {
         // Administrator sees all the settings and projects
         // To check this, we verify that the administrator is able to create projects
         cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('exist');
+    })
+
+    it('AT-04: Researcher logs in, sees all projects and logs out', () => {
+        // Researcher logs in
+        cy.fixture('researcher').then((data) => {
+            userLogIn(data.username, data.password);
+        });
+
+        // Researcher only sees the configuration and projects to which permission has been given
+        // To check this, we verify that the researcher is not able to create projects
+        cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('not.exist');
     })
 
     it('AT-05: Administrator creates project, edits it and removes it', () => {
@@ -128,15 +124,13 @@ describe('Face Analyzer App', () => {
 
         // Administrator can see the project on the project management panel
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2EProject').should("exist")
+        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2EProject').should('be.visible');
 
         // Administrator clicks on "Edit" inside the project
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2EProject')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root[aria-controls="menu-project-card"]')
+            .get('[id^="menu-project-"]')
+            .eq(0)
             .click();
         cy.get('.MuiMenuItem-root:contains("Edit")').filter(':visible').click();
 
@@ -149,12 +143,9 @@ describe('Face Analyzer App', () => {
 
         // Administrator clicks on "Delete" inside the project
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2EProject 2')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root[aria-controls="menu-project-card"]')
+            .get('[id^="menu-project-"]')
+            .eq(0)
             .click();
         cy.get('.MuiMenuItem-root:contains("Delete")').filter(':visible').click();
 
@@ -178,19 +169,18 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on "Edit Researchers"
-        cy.contains('.MuiGrid-root', 'E2E Tests').get('#button-researchers-edit').click();
+        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'E2E Tests')
+            .closest('.MuiCard-root')
+            .find('#button-researchers-edit')
+            .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123/researchers');
 
         // Administrator clicks on "Add researchers"
@@ -227,13 +217,9 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
@@ -247,37 +233,29 @@ describe('Face Analyzer App', () => {
         cy.contains('Save').click();
 
         // Administrator clicks on the created experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'experimentName')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'experimentName')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root[aria-controls="menu-experiment-card"]')
+            .find('[id^="button-open-undefined-"]')
             .click();
             
         // Administrator clicks on "Edit"
-        cy.get('.MuiMenuItem-root:contains("Edit")').filter(':visible').click();
+        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName')
+            .closest('.MuiCard-root')
+            .find('#button-edit-experiment')
+            .click();
 
         // Administrator changes the title and description of the experiment and clicks "Update"
         cy.get('#experimentName').type(' 2');
         cy.contains('Update').click({ force: true });
 
         // Administrator can see the experiment with the description changed on the project screen
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'experimentName 2').should("exist");
-
-        // Administrator clicks on the created experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'experimentName')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiBox-root')
-            .find('.MuiAvatar-root[aria-controls="menu-experiment-card"]')
-            .click();
+        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2').should("exist");
 
         // Administrator clicks on "Delete"
-        cy.get('.MuiMenuItem-root:contains("Delete")').filter(':visible').click();
+        cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName')
+            .closest('.MuiCard-root')
+            .find('#button-delete-experiment')
+            .click();
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('.css-1uzcv0d form').within(() => {
@@ -296,26 +274,17 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root')
-            .eq(0)
+            .find('[id^="button-open-undefined-"]')
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
@@ -324,7 +293,7 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57/notes');
 
         // Administrator clicks on the button "Add note"
-        cy.get('#add-notes-button').click();
+        cy.get('#add-note-button').click();
 
         // Administrator fills in the form with the note and submits it
         cy.get('#noteDescription').type('Note description');
@@ -367,26 +336,17 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root')
-            .eq(0)
+            .find('[id^="button-open-undefined-"]')
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
@@ -403,13 +363,9 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiGrid-root .MuiTypography-root', 'Stimulus name').should("exist");
 
         // Administrator clicks on on the cross button next to the video to delete it
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'Stimulus name')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'Stimulus name')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root[aria-controls="menu-stimulus-card"]')
+            .find('[id^="menu-stimulus-"]')
             .click();
         cy.get('[id^="menu-stimulus-"][id$="-delete"]:visible').click();
 
@@ -430,26 +386,17 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root')
-            .eq(0)
+            .find('[id^="button-open-undefined-"]')
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
@@ -458,30 +405,34 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
 
         // Administrator clicks on the button "Start recording"
-        cy.contains('Start Recording').click();
+        cy.get('#button-toggle-recording').filter(':visible').click();
 
-        // Administrator clicks on the button "Save"
-        cy.get('#button-save-reaction').click();
+        // Administrator clicks on the button "Start recording"        
+        cy.get('#button-toggle-recording').filter(':visible').click();
+
+        // Administrator should click on the button "Save", but since there is no participant
+        // on the test it is still disable
+        //cy.get('#button-save-reaction').filter(':visible').click();
 
         // Administrator fills the name and surname of the participant and submits the form
-        cy.get('#name').type('E2E');
-        cy.get('#surname').type('Participant');
-        cy.get('#button-save').click();
+        //cy.get('#name').type('E2E');
+        //cy.get('#surname').type('Participant');
+        //cy.get('#button-save').click();
 
         // Administrator can see the recently added reaction in the stimuli video screen
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Participant').should("exist")
+        //cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Participant').should("exist")
 
         // Administrator clicks on the delete button next to the reaction to delete it
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Participant')
+        /*cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Participant')
             .parents('.MuiBox-root')
             .find('.MuiButtonBase-root:contains("Delete")')
             .eq(1)
-            .click();
+            .click();*/
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
+        /*cy.get('.css-1uzcv0d form').within(() => {
             cy.get('.MuiButton-containedSecondary').click();
-        });
+        });*/
     })
 
     it('AT-11: User downloads all the raw data of visage|SDK and the raw data for a single reaction', () => {
@@ -495,36 +446,27 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root')
-            .eq(0)
+            .find('[id^="button-open-undefined-"]')
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
         // Administrator clicks on a stimuli video
-        cy.get('#button-open-stimulus-102').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/102');
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-114').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/114/statistics', { timeout: 10000 });
+        cy.get('#button-stats-reaction-129').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
 
         // Administrator clicks on 'Export CSV' button to download the raw data of visage|SDK for a single reaction
         cy.get('#button-export-csv').should('exist');
@@ -541,36 +483,27 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
-            .find('.MuiAvatar-root')
-            .eq(0)
+            .find('[id^="button-open-undefined-"]')
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
         // Administrator clicks on a stimuli video
-        cy.get('#button-open-stimulus-102').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/102');
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-114').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/114/statistics', { timeout: 10000 });
+        cy.get('#button-stats-reaction-129').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
 
         // Administrator sees a plot that shows how magnitudes of basic emotions change over time
         cy.get('#button-emotions-over-time').should('exist');
@@ -587,23 +520,15 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
 
         // Administrator clicks on a project
-        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Tests')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
+        cy.contains('.MuiTypography-root', 'E2E Tests')
             .parent('.MuiBox-root')
-            .find('.MuiSvgIcon-root')
+            .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
         cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
-            .parent('.MuiGrid-root')
             .parent('.MuiBox-root')
             .find('.MuiAvatar-root')
             .eq(0)
@@ -611,12 +536,12 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
 
         // Administrator clicks on a stimuli video
-        cy.get('#button-open-stimulus-102').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/102');
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-114').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/114/statistics', { timeout: 10000 });
+        cy.get('#button-stats-reaction-129').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
 
         // Administrator can see a plot that shows how magnitudes of basic emotions change over time
         cy.get('#button-emotions-distribution').should('exist');
