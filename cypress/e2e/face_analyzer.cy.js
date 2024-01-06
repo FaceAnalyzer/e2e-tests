@@ -83,6 +83,8 @@ describe('Face Analyzer App', () => {
         cy.get('.css-1uzcv0d form').within(() => {
             cy.get('.MuiButton-containedSecondary:visible').click();
         });
+
+        cy.contains('.MuiDataGrid-cellContent', data.username).should('not.exist');
     })
 
     it('AT-03: Administrator logs in, sees all projects and logs out', () => {
