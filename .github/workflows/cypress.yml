@@ -16,7 +16,7 @@ jobs:
         with:
           build: npm install
           start: npx cypress run
-          browser: electron
+          # browser: electron
 
   cypress-with-firefox:
     name: Cypress with Firefox
