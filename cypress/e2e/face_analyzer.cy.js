@@ -58,6 +58,17 @@ describe('Face Analyzer App', () => {
         });
     })
 
+    it('AT-04: Researcher logs in, sees all projects and logs out', () => {
+        // Researcher logs in
+        cy.fixture('researcher').then((data) => {
+            userLogIn(data.username, data.password);
+        });
+
+        // Researcher only sees the configuration and projects to which permission has been given
+        // To check this, we verify that the researcher is not able to create projects
+        cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('not.exist');
+    })
+
     it('AT-02: Administrator delete account', () => {
         // Administrator logs in
         cy.fixture('admin').then((data) => {
@@ -92,17 +103,6 @@ describe('Face Analyzer App', () => {
         // Administrator sees all the settings and projects
         // To check this, we verify that the administrator is able to create projects
         cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('exist');
-    })
-
-    it('AT-04: Researcher logs in, sees all projects and logs out', () => {
-        // Researcher logs in
-        cy.fixture('researcher').then((data) => {
-            userLogIn(data.username, data.password);
-        });
-
-        // Researcher only sees the configuration and projects to which permission has been given
-        // To check this, we verify that the researcher is not able to create projects
-        cy.get('.MuiBox-root').find('.MuiAvatar-root .MuiSvgIcon-root').should('not.exist');
     })
 
     it('AT-05: Administrator creates project, edits it and removes it', () => {
@@ -361,11 +361,13 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiTypography-root', 'Stimulus name')
             .parent('.MuiBox-root')
             .find('[id^="menu-stimulus-"]')
+            .filter(':visible')
             .click();
         cy.get('[id^="menu-stimulus-"][id$="-delete"]:visible').click();
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
+        cy.contains('.MuiGrid-root', 'Stimulus name').should('not.exist')
     })
 
     it('AT-10: User records reaction and deletes it', () => {
