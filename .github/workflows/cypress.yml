@@ -19,7 +19,7 @@ jobs:
   cypress-with-firefox:
     name: Cypress with Firefox
     needs:
-      - cypress-with-electron
+      - cypress-with-chrome
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
