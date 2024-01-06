@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  cypress-with-chrome:
-    name: Cypress with Chrome
+  cypress-with-electron:
+    name: Cypress with Electron
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -16,12 +16,12 @@ jobs:
         with:
           build: npm install
           start: npx cypress run
-          browser: chrome
+          browser: electron
 
   cypress-with-firefox:
     name: Cypress with Firefox
     needs:
-      - cypress-with-chrome
+      - cypress-with-electron
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
