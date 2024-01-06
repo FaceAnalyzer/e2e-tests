@@ -234,7 +234,7 @@ describe('Face Analyzer App', () => {
         // Administrator clicks on the created experiment
         cy.contains('.MuiTypography-root', 'experimentName')
             .parent('.MuiBox-root')
-            .find('[id^="button-open-undefined-"]')
+            .find('[id^="button-open-"]')
             .filter(':visible')
             .click();
             
