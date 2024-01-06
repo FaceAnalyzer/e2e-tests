@@ -251,10 +251,12 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2')
             .closest('.MuiCard-root')
             .find('#button-delete-experiment')
+            .filter(':visible')
             .click();
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
+        cy.contains('.MuiTypography-root', 'experimentName 2').should('not.exist')
     })
 
     it('AT-08: User adds note, edits it and deletes it', () => {
@@ -315,6 +317,7 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
+        cy.contains('.MuiPaper-root', 'Note description 2').should('not.exist')
     })
 
     it('AT-09: User adds stimuli video and removes it', () => {
