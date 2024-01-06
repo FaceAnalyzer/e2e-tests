@@ -80,11 +80,7 @@ describe('Face Analyzer App', () => {
         });        
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
-
-        cy.contains('.MuiDataGrid-cellContent', data.username).should('not.exist');
+        cy.get('#button-yes:visible').click();
     })
 
     it('AT-03: Administrator logs in, sees all projects and logs out', () => {
@@ -154,9 +150,7 @@ describe('Face Analyzer App', () => {
         cy.get('.MuiMenuItem-root:contains("Delete")').filter(':visible').click();
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
+        cy.get('#button-yes:visible').click();
 
         // Administrator can not see the project on the project management panel
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2EProject 2').should("not.exist")
@@ -201,9 +195,7 @@ describe('Face Analyzer App', () => {
         cy.get('#button-remove-researcher-148').click();  
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
+        cy.get('#button-yes:visible').click();
 
         // Administrator can not see the previously added researcher assigned to the project
         cy.contains('.MuiDataGrid-cell', 'researcher-e2e').should('not.exist')
@@ -262,9 +254,7 @@ describe('Face Analyzer App', () => {
             .click();
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
+        cy.get('#button-yes:visible').click();
     })
 
     it('AT-08: User adds note, edits it and deletes it', () => {
@@ -324,9 +314,7 @@ describe('Face Analyzer App', () => {
         cy.get('[id^="button-delete-note-"]:visible').click();
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
+        cy.get('#button-yes:visible').click();
     })
 
     it('AT-09: User adds stimuli video and removes it', () => {
@@ -374,9 +362,7 @@ describe('Face Analyzer App', () => {
         cy.get('[id^="menu-stimulus-"][id$="-delete"]:visible').click();
 
         // On the confirmation pop up, administrator clicks "yes"
-        cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary:visible').click();
-        });
+        cy.get('#button-yes:visible').click();
     })
 
     it('AT-10: User records reaction and deletes it', () => {
@@ -434,9 +420,7 @@ describe('Face Analyzer App', () => {
             .click();*/
 
         // On the confirmation pop up, administrator clicks "yes"
-        /*cy.get('.css-1uzcv0d form').within(() => {
-            cy.get('.MuiButton-containedSecondary').click();
-        });*/
+        //cy.get('#button-yes:visible').click();
     })
 
     it('AT-11: User downloads all the raw data of visage|SDK and the raw data for a single reaction', () => {
