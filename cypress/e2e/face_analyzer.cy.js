@@ -92,6 +92,9 @@ describe('Face Analyzer App', () => {
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
+        cy.fixture('researcher').then((data) => {
+            cy.contains('.MuiDataGrid-cellContent', data.username).should("not.exist")
+        });
     })
 
     it('AT-03: Administrator logs in, sees all projects and logs out', () => {
@@ -232,6 +235,7 @@ describe('Face Analyzer App', () => {
         cy.contains('.MuiTypography-root', 'experimentName')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
+            .filter(':visible')
             .click();
             
         // Administrator clicks on "Edit"
@@ -243,7 +247,7 @@ describe('Face Analyzer App', () => {
 
         // Administrator changes the title and description of the experiment and clicks "Update"
         cy.get('#experimentName').type(' 2');
-        cy.get('#button-update').click();
+        cy.get('#button-update').filter(':visible').click();
 
         // Administrator can see the experiment with the description changed on the project screen
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'experimentName 2').should("exist");
