@@ -14,8 +14,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm install
-          start: npx cypress run
           browser: chrome
 
   cypress-with-firefox:
@@ -29,6 +27,4 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm install
-          start: npx cypress run
           browser: firefox
