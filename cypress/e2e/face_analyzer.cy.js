@@ -504,6 +504,44 @@ describe('Face Analyzer App', () => {
         cy.get('#button-emotions-over-time').should('exist');
     })
 
+    it('AT-13: User sees dynamic charts', () => {
+        // Administrator logs in
+        cy.fixture('admin').then((data) => {
+            userLogIn(data.username, data.password);
+        });
+
+        // Administrator clicks on the project management panel
+        cy.get('#Projects-landing-page-card').click();       
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
+
+        // Administrator clicks on a project
+        cy.contains('.MuiTypography-root', 'E2E Tests')
+            .parent('.MuiBox-root')
+            .find('[id^="button-open-project-"]')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+
+        // Administrator clicks on an experiment
+        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
+            .parent('.MuiBox-root')
+            .find('.MuiAvatar-root')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+
+        // Administrator clicks on a stimuli video
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+
+        // Administrator clicks on the statistics button of a reaction
+        cy.get('#button-stats-reaction-129').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
+
+        // Administrator can see a plot that shows how magnitudes of basic emotions change over time
+        cy.get('#button-dynamic-chart').should('exist');
+    })
+
     it('AT-14: User sees distributions of participants emotion', () => {
         // Administrator logs in
         cy.fixture('admin').then((data) => {
@@ -540,5 +578,78 @@ describe('Face Analyzer App', () => {
 
         // Administrator can see a plot that shows how magnitudes of basic emotions change over time
         cy.get('#button-emotions-distribution').should('exist');
+    })
+
+    it('AT-15: User sees emotions in time per experiment', () => {
+        // Administrator logs in
+        cy.fixture('admin').then((data) => {
+            userLogIn(data.username, data.password);
+        });
+
+        // Administrator clicks on the project management panel
+        cy.get('#Projects-landing-page-card').click();       
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
+
+        // Administrator clicks on a project
+        cy.contains('.MuiTypography-root', 'E2E Tests')
+            .parent('.MuiBox-root')
+            .find('[id^="button-open-project-"]')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+
+        // Administrator clicks on an experiment
+        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
+            .parent('.MuiBox-root')
+            .find('.MuiAvatar-root')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+
+        // Administrator clicks on a stimuli video
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+
+        // Administrator clicks on "Collective statistics"
+        cy.get('#button-collective-stats').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98/statistics');
+    })
+
+    it('AT-16: User exports a single visualization and all visualizations in CSV files', () => {
+        // Administrator logs in
+        cy.fixture('admin').then((data) => {
+            userLogIn(data.username, data.password);
+        });
+
+        // Administrator clicks on the project management panel
+        cy.get('#Projects-landing-page-card').click();       
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/projects');
+
+        // Administrator clicks on a project
+        cy.contains('.MuiTypography-root', 'E2E Tests')
+            .parent('.MuiBox-root')
+            .find('[id^="button-open-project-"]')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+
+        // Administrator clicks on an experiment
+        cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
+            .parent('.MuiBox-root')
+            .find('.MuiAvatar-root')
+            .eq(0)
+            .click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+
+        // Administrator clicks on a stimuli video
+        cy.get('#button-open-stimulus-98').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+
+        // Administrator clicks on "Collective statistics"
+        cy.get('#button-collective-stats').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98/statistics');
+
+        // Administrator clicks on "Export Collective CSV"
+        cy.get('#button-export-csv').click();
     })
 })
