@@ -469,7 +469,7 @@ describe('Face Analyzer App', () => {
         cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
 
         // Administrator clicks on "Export CSV"
-        cy.get('#button-export-csv').should('exist');
+        cy.get('#button-export-csv').click();
 
         // Administrator gets CSV file with the raw data for that reaction
         cy.intercept('GET', 'https://backend.faceanalyzer.plavy.me/reactions/129/emotions/export').as('download');
