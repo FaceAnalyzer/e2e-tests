@@ -3,7 +3,7 @@
 describe('Face Analyzer App', () => {
 
     beforeEach(() => {
-        cy.visit('https://faceanalyzer.plavy.me/');
+        cy.visit('/');
     })
 
     function userLogIn (username, password) {
