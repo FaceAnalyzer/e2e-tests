@@ -13,6 +13,7 @@ In order to be able to test the requirements related to graph visualisation it i
 - an experiment within the previous project called E2E experiment
 - a video within the previous experiment
 - a reaction within the previous video
+
 If it is not created, the tests will fail and it will be necessary to proceed to its creation and change the identifiers in the code of the tests.
 The reason for this implementation is that the application currently returns an error if you try to record a reaction without a user in front of the camera and the tests are not able to simulate this user reacting.
 
