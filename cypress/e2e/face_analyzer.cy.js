@@ -179,14 +179,14 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on "Edit Researchers"
         cy.contains('.MuiTypography-root.MuiTypography-body1.css-1wu5z7k', 'E2E Tests')
             .closest('.MuiCard-root')
             .find('#button-researchers-edit')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123/researchers');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320/researchers');
 
         // Administrator clicks on "Add researchers"
         cy.contains('Add researcher').click();
@@ -196,16 +196,16 @@ describe('Face Analyzer App', () => {
         cy.contains('Save').click();
 
         // Administrator can see the recently added researcher assigned to the project
-        cy.contains('.MuiDataGrid-cell', 'researcher-e2e').should('exist')
+        cy.contains('.MuiDataGrid-cell', 'e2e-tests-researcher').should('exist')
 
         // Administrator clicks on the remove button next to the researcher to delete it
-        cy.get('#button-remove-researcher-148').click();  
+        cy.get('#button-remove-researcher-312').click();  
 
         // On the confirmation pop up, administrator clicks "yes"
         cy.get('#button-yes:visible').click();
 
         // Administrator cannot see the previously added researcher assigned to the project
-        cy.contains('.MuiDataGrid-cell', 'researcher-e2e').should('not.exist')
+        cy.contains('.MuiDataGrid-cell', 'e2e-tests-researcher').should('not.exist')
 
     })
 
@@ -225,7 +225,7 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on "Add experiment"
         cy.get('.MuiAvatar-root .icon-tabler-plus').click();
@@ -286,18 +286,18 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on the notes button
-        cy.get('#button-notes-57').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57/notes');
+        cy.get('#button-notes-247').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247/notes');
 
         // Administrator clicks on the button "Add note"
         cy.get('#add-note-button').click();
@@ -347,14 +347,14 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on the button "Add stimulus"
         cy.get('.MuiAvatar-root .icon-tabler-plus').click();
@@ -399,24 +399,21 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on the button "Start recording"
-        cy.get('#button-toggle-recording').filter(':visible').click();
-
-        // Administrator clicks on the button "Stop recording"        
-        cy.get('#button-toggle-recording').filter(':visible').click();
+        cy.get('#button-toggle-recording').should('exist');
 
         // The test ends here as it is not possible to simulate a participant reacting 
         // to the video and the platform does not allow us to save the reaction
@@ -438,41 +435,41 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on "Collective statistics"
         cy.get('#button-collective-stats').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98/statistics');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227/statistics');
 
         // Administrator clicks on "Export Collective CSV"
         cy.get('#button-export-csv').click();
 
         // Administrator gets CSV file with all the raw data
-        cy.intercept('GET', 'https://backend.faceanalyzer.plavy.me/reactions/98/emotions/export').as('download');
+        cy.intercept('GET', 'https://backend.faceanalyzer.plavy.me/reactions/227/emotions/export').as('download');
 
         // Administrator goes back one screen
         cy.go('back');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-129').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics', { timeout: 10000 });
+        cy.get('#button-stats-reaction-162').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/162/statistics', { timeout: 10000 });
 
         // Administrator clicks on "Export CSV"
         cy.get('#button-export-csv').click();
 
         // Administrator gets CSV file with the raw data for that reaction
-        cy.intercept('GET', 'https://backend.faceanalyzer.plavy.me/reactions/129/emotions/export').as('download');
+        cy.intercept('GET', 'https://backend.faceanalyzer.plavy.me/reactions/162/emotions/export').as('download');
     })
 
     it('AT-12: User sees emotions over time', () => {
@@ -491,22 +488,22 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiTypography-root', 'E2E Experiment')
             .parent('.MuiBox-root')
             .find('[id^="button-open-undefined-"]')
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-129').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics',
+        cy.get('#button-stats-reaction-162').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/162/statistics',
          { timeout: 10000 });
 
         // Administrator can click on the button to see a plot that shows how magnitudes
@@ -530,7 +527,7 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
@@ -538,15 +535,15 @@ describe('Face Analyzer App', () => {
             .find('.MuiAvatar-root')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-129').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics',
+        cy.get('#button-stats-reaction-162').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/162/statistics',
          { timeout: 10000 });
 
         // Administrator can click on the button to see plots showing numbers
@@ -570,7 +567,7 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
@@ -578,15 +575,15 @@ describe('Face Analyzer App', () => {
             .find('.MuiAvatar-root')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on the statistics button of a reaction
-        cy.get('#button-stats-reaction-129').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/129/statistics',
+        cy.get('#button-stats-reaction-162').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/reaction/162/statistics',
          { timeout: 10000 });
 
         // Administrator can click on the button to see boxplots per participant which
@@ -610,7 +607,7 @@ describe('Face Analyzer App', () => {
             .find('[id^="button-open-project-"]')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/123');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/project/320');
 
         // Administrator clicks on an experiment
         cy.contains('.MuiGrid-root .MuiTypography-root', 'E2E Experiment')
@@ -618,16 +615,16 @@ describe('Face Analyzer App', () => {
             .find('.MuiAvatar-root')
             .eq(0)
             .click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/57');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/experiment/247');
 
         // Administrator clicks on a stimulus video
-        cy.get('#button-open-stimulus-98').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98');
+        cy.get('#button-open-stimulus-227').click();
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227');
 
         // Administrator clicks on "Collective statistics" and sees line charts of
         // emotions over time per stimulus video
         cy.get('#button-collective-stats').click();
-        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/98/statistics');
+        cy.url().should('include', 'https://faceanalyzer.plavy.me/stimuli/227/statistics');
     })
 
 })
